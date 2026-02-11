@@ -1,12 +1,12 @@
 <?php
-    include("connect/connect.php");
-    include("component/function.php")
+    include(__DIR__ . "/../connect/connect.php");
+    include(__DIR__ . "/component/function.php");
 ?>
 <!DOCTYPE html>
 <html lang="en"> <!--begin::Head-->
 
 <?php
-    include("component/header.php");
+    include(__DIR__ . "/component/header.php");
 ?>
 
 <body class="bg-danger"> <!--begin::App Wrapper-->
@@ -95,7 +95,7 @@
     </section>
    
     <?php
-        include("component/script.php");
+        include(__DIR__ . "/component/script.php");
     ?>
 </body><!--end::Body-->
 
