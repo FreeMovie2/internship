@@ -1,7 +1,7 @@
 <?php
     session_start();
-    include("../connect/connect.php");
-    include("../component/function.php");
+    include(__DIR__ . "/../connect/connect.php");
+    include(__DIR__ . "/../component/function.php");
     if(isset($_POST['submit'])){
         $t_username = mysqli_real_escape_string($conn ,$_POST['t_username']);
         $t_password = mysqli_real_escape_string($conn , $_POST['t_password']);
