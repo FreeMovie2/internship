@@ -487,26 +487,10 @@
             background: #fff;
         }
 
-        .edit-section > summary {
-            cursor: pointer;
+        .edit-section > .section-title {
             font-size: 1.05rem;
             font-weight: 600;
             margin: 0;
-            list-style: none;
-        }
-
-        .edit-section > summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .edit-section > summary::after {
-            content: "+";
-            float: right;
-            font-weight: 700;
-        }
-
-        .edit-section[open] > summary::after {
-            content: "-";
         }
 
         .edit-section-body {
@@ -619,16 +603,14 @@
                 return;
             }
 
-            headings.forEach(function (heading, index) {
-                const section = document.createElement('details');
+            headings.forEach(function (heading) {
+                const section = document.createElement('div');
                 section.className = 'edit-section';
-                if (index === 0) {
-                    section.open = true;
-                }
 
-                const summary = document.createElement('summary');
-                summary.textContent = heading.textContent.trim();
-                section.appendChild(summary);
+                const title = document.createElement('h4');
+                title.className = 'section-title';
+                title.textContent = heading.textContent.trim();
+                section.appendChild(title);
 
                 const body = document.createElement('div');
                 body.className = 'edit-section-body';

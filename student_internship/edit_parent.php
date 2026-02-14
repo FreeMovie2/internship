@@ -359,6 +359,145 @@
     <?php
         include("component/script.php");
     ?>
+    <style>
+        .edit-section {
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            background: #fff;
+        }
+
+        .edit-section > .section-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .edit-section-body {
+            padding-top: 0.75rem;
+        }
+
+        .edit-section-body.form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem 1rem;
+        }
+
+        .edit-section-body.form-grid > .mb-3,
+        .edit-section-body.form-grid > .form-group {
+            margin-bottom: 0 !important;
+        }
+
+        .edit-section-body.form-grid > .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .sub-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem 1rem;
+        }
+
+        .sub-grid > .mb-3,
+        .sub-grid > .form-group {
+            margin-bottom: 0 !important;
+        }
+
+        .sticky-save-btn {
+            width: 100%;
+        }
+
+        @media (max-width: 767.98px) {
+            .sticky-save-btn {
+                position: sticky;
+                bottom: 0.75rem;
+                z-index: 25;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .edit-section {
+                padding: 0.65rem 0.8rem;
+            }
+
+            .edit-section-body.form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sub-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        (function () {
+            const form = document.querySelector('form[action="process/edit_parent.php"]');
+            if (!form) {
+                return;
+            }
+
+            const headings = Array.from(form.querySelectorAll('h4'));
+            headings.forEach(function (heading) {
+                const section = document.createElement('div');
+                section.className = 'edit-section';
+
+                const title = document.createElement('h4');
+                title.className = 'section-title';
+                title.textContent = heading.textContent.trim();
+                section.appendChild(title);
+
+                const body = document.createElement('div');
+                body.className = 'edit-section-body';
+
+                let current = heading.nextSibling;
+                while (current && !(current.nodeType === 1 && current.tagName === 'H4')) {
+                    const next = current.nextSibling;
+                    body.appendChild(current);
+                    current = next;
+                }
+
+                section.appendChild(body);
+                heading.parentNode.replaceChild(section, heading);
+            });
+
+            const sectionBodies = form.querySelectorAll('.edit-section-body');
+            sectionBodies.forEach(function (body) {
+                body.classList.add('form-grid');
+
+                Array.from(body.children).forEach(function (el) {
+                    const tag = el.tagName;
+                    if (
+                        tag === 'H5' ||
+                        (tag === 'DIV' && !el.classList.contains('mb-3') && !el.classList.contains('form-group'))
+                    ) {
+                        el.classList.add('full-width');
+                    }
+
+                    if (
+                        el.classList.contains('full-width') &&
+                        el.tagName === 'DIV' &&
+                        el.querySelector(':scope > .mb-3, :scope > .form-group')
+                    ) {
+                        el.classList.add('sub-grid');
+                    }
+                });
+            });
+
+            const submitBtn = form.querySelector('button[name="submit"]');
+            if (submitBtn) {
+                submitBtn.classList.add('sticky-save-btn');
+            }
+
+            const telInputs = form.querySelectorAll('input[name$="_tel"]');
+            telInputs.forEach(function (input) {
+                input.setAttribute('inputmode', 'numeric');
+                input.addEventListener('input', function () {
+                    this.value = this.value.replace(/\D+/g, '');
+                });
+            });
+        })();
+    </script>
 </body>
 <!--end::Body-->
 
