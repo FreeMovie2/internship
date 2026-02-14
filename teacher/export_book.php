@@ -145,6 +145,44 @@
     border: 1px solid #000;
     padding: 10px;
   }
+  .internship-photo-page .photo-item {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+    margin-bottom: 6mm;
+  }
+  .internship-photo-page .photo-frame {
+    /* border: 1px solid #000; */
+    padding: 6px;
+    height: 70mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .internship-photo-page .photo-frame img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .image-block {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+    margin-bottom: 12mm;
+  }
+  .image-block img {
+    display: block;
+    width: 100%;
+    max-width: 170mm;
+    max-height: 110mm;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+  .company-image-page .image-block {
+    margin-bottom: 6mm;
+  }
+  .company-image-page .image-block img {
+    max-height: 92mm;
+  }
   p{
     margin-bottom: 3px !important;
   }
@@ -210,13 +248,17 @@
         </div>
     </div>
 
-    <div class="page">
+    <div class="page company-image-page">
         <div class="subpage">
             <p class="text-center"><b>แผนที่ตั้งสถานประกอบการ</b></p>
-            <p class="text-center"><img src="../student_internship/information_file/company/<?php echo $fetch_company["c_map"]; ?>" class="ing-fluid img-frame w-75"/></p>
-
-            <p class="text-center mt-5"><b>แผนผังโครงสร้างตำแหน่งงานของสถานประกอบการณ์</b></p>
-            <p class="text-center"><img src="../student_internship/information_file/company/<?php echo $fetch_company["c_org"]; ?>" class="ing-fluid img-frame w-75"/></p>
+            <div class="image-block">
+                <p class="text-center"><img src="../student_internship/information_file/company/<?php echo $fetch_company["c_map"]; ?>" class="ing-fluid img-frame"/></p>
+            </div>
+            
+            <p class="text-center mt-3"><b>แผนผังโครงสร้างตำแหน่งงานของสถานประกอบการณ์</b></p>
+            <div class="image-block">
+                <p class="text-center"><img src="../student_internship/information_file/company/<?php echo $fetch_company["c_org"]; ?>" class="ing-fluid img-frame"/></p>
+            </div>
         </div>
     </div>     
 
@@ -543,7 +585,7 @@
         </div>
 
         <?php while($fetch_weekly2 = $result_weekly_2->fetch_assoc()){?>
-            <div class="page">
+            <div class="page internship-photo-page">
                 <div class="subpage">
                     
                     <p class="text-center mb-2"  style="font-weight: bold;text-align:center">
@@ -557,11 +599,19 @@
                                 <p class="text-center">วัน<?php echo $days[$fetch_weekly2['i_day']]; ?> ที่ <?php echo $fetch_weekly2['i_date']; ?></p>
                                 <hr>
 
-                                <p class="text-center"><img src="../student_internship/uploaded/internship_img/<?php echo $fetch_weekly2['i_img1']; ?>" style="max-width:500px; max-height:300px; display:block; margin:0 auto;"/></p>
+                                <div class="photo-item">
+                                    <div class="photo-frame">
+                                        <img src="../student_internship/uploaded/internship_img/<?php echo $fetch_weekly2['i_img1']; ?>" alt="internship-photo-1"/>
+                                    </div>
                                 <p class="text-justify mt-1"><b>รายละเอียด : </b><?php echo $fetch_weekly2['i_img1_detail']; ?></p>
+                                </div>
 
-                                <p class="text-center"><img src="../student_internship/uploaded/internship_img/<?php echo $fetch_weekly2['i_img2']; ?>" style="max-width:500px; max-height:300px; display:block; margin:0 auto;"/></p>
+                                <div class="photo-item">
+                                    <div class="photo-frame">
+                                        <img src="../student_internship/uploaded/internship_img/<?php echo $fetch_weekly2['i_img2']; ?>" alt="internship-photo-2"/>
+                                    </div>
                                 <p class="text-justify mt-2"><b>รายละเอียด : </b><?php echo $fetch_weekly2['i_img2_detail']; ?></p>
+                                </div>
                                 
                             </div>
 
