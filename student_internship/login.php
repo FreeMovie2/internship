@@ -86,7 +86,7 @@
                                             <i class="bi bi-arrow-left-circle"></i> กลับไปหน้าหลัก
                                         </a>
                                     </div>
-                                    <p class="mt-4 mb-0 text-center">&copy; <?php echo date("Y")?> วิทยาลัยเทคนิคฉะเชิงเทรา</p>
+                                    <p class="mt-4 mb-0 text-center">&copy; <?php echo date("Y")?> วิทยาลัยเทคนิคฉะเชิงเทรา - โดยนายอาคม วงษ์คง</p>
                                 </div>
                             </div>
                         </div>
