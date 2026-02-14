@@ -21,6 +21,17 @@
             $sql_student_information->execute();
             $result_information = $sql_student_information->get_result();
             $fetch_information = $result_information->fetch_assoc();
+
+            $subject_rows = [];
+            $sql_subjects = $conn->prepare("SELECT subject_code, subject_name FROM student_internship_subjects WHERE s_id = ? ORDER BY id ASC");
+            if ($sql_subjects) {
+                $sql_subjects->bind_param("s", $s_id);
+                $sql_subjects->execute();
+                $result_subjects = $sql_subjects->get_result();
+                while ($subject = $result_subjects->fetch_assoc()) {
+                    $subject_rows[] = $subject;
+                }
+            }
         
 
             $sql_province = "SELECT * FROM th_province order by CONVERT( name_th USING tis620 ) ASC";
@@ -229,6 +240,42 @@
                                                 value="<?php echo $fetch_student['s_email']; ?>" required>
                                         </div>
 
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <label class="form-label mb-0">รายวิชาที่นำออกฝึกประสบการณ์</label>
+                                                <button type="button" class="btn btn-sm btn-outline-primary" id="add-subject-row">เพิ่มรายวิชา</button>
+                                            </div>
+                                            <div id="subject-rows">
+                                                <?php if (!empty($subject_rows)) { ?>
+                                                    <?php foreach ($subject_rows as $subject) { ?>
+                                                        <div class="row g-2 mb-2 subject-row">
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" name="subject_code[]" placeholder="รหัสรายวิชา" value="<?php echo htmlspecialchars($subject['subject_code']); ?>">
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <input type="text" class="form-control" name="subject_name[]" placeholder="ชื่อรายวิชา" value="<?php echo htmlspecialchars($subject['subject_name']); ?>">
+                                                            </div>
+                                                            <div class="col-md-1 d-grid">
+                                                                <button type="button" class="btn btn-outline-danger remove-subject-row">ลบ</button>
+                                                            </div>
+                                                        </div>
+                                                    <?php } ?>
+                                                <?php } else { ?>
+                                                    <div class="row g-2 mb-2 subject-row">
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" name="subject_code[]" placeholder="รหัสรายวิชา">
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <input type="text" class="form-control" name="subject_name[]" placeholder="ชื่อรายวิชา">
+                                                        </div>
+                                                        <div class="col-md-1 d-grid">
+                                                            <button type="button" class="btn btn-outline-danger remove-subject-row">ลบ</button>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+
                                         <div class="input-group">
                                             <label for="s_special" class="form-label">ความสามารถพิเศษ</label>
                                         </div>
@@ -431,6 +478,49 @@
     <?php
         include("component/script.php");
     ?>
+    <script>
+        (function () {
+            const addButton = document.getElementById('add-subject-row');
+            const container = document.getElementById('subject-rows');
+            if (!addButton || !container) {
+                return;
+            }
+
+            addButton.addEventListener('click', function () {
+                const row = document.createElement('div');
+                row.className = 'row g-2 mb-2 subject-row';
+                row.innerHTML = `
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="subject_code[]" placeholder="รหัสรายวิชา">
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="subject_name[]" placeholder="ชื่อรายวิชา">
+                    </div>
+                    <div class="col-md-1 d-grid">
+                        <button type="button" class="btn btn-outline-danger remove-subject-row">ลบ</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            container.addEventListener('click', function (event) {
+                if (!event.target.classList.contains('remove-subject-row')) {
+                    return;
+                }
+
+                const rows = container.querySelectorAll('.subject-row');
+                if (rows.length === 1) {
+                    const codeInput = rows[0].querySelector('input[name="subject_code[]"]');
+                    const nameInput = rows[0].querySelector('input[name="subject_name[]"]');
+                    if (codeInput) codeInput.value = '';
+                    if (nameInput) nameInput.value = '';
+                    return;
+                }
+
+                event.target.closest('.subject-row').remove();
+            });
+        })();
+    </script>
 </body>
 <!--end::Body-->
 

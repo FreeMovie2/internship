@@ -46,6 +46,8 @@
         $s_aumpher2 = htmlspecialchars($_POST['s_aumpher2'] ?? '');
         $s_tumbon2 = htmlspecialchars($_POST['s_tumbon2'] ?? '');
         $s_update_information = "Y";
+        $subject_codes = $_POST['subject_code'] ?? [];
+        $subject_names = $_POST['subject_name'] ?? [];
 
         $sql_student_2  = $conn->prepare("SELECT * FROM students WHERE s_id = ?");
         $sql_student_2->bind_param("s", $s_id);
@@ -169,6 +171,34 @@
                     $s_id);
                     
                 if($sql_student_information->execute()){
+                    $delete_subjects = $conn->prepare("DELETE FROM student_internship_subjects WHERE s_id = ?");
+                    if (!$delete_subjects) {
+                        die("SQL prepare failed (delete subjects): " . $conn->error);
+                    }
+                    $delete_subjects->bind_param("s", $s_id);
+                    if (!$delete_subjects->execute()) {
+                        die("SQL execution failed (delete subjects): " . $delete_subjects->error);
+                    }
+
+                    $insert_subject = $conn->prepare("INSERT INTO student_internship_subjects (s_id, subject_code, subject_name, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
+                    if (!$insert_subject) {
+                        die("SQL prepare failed (insert subjects): " . $conn->error);
+                    }
+
+                    $subject_count = max(count($subject_codes), count($subject_names));
+                    for ($i = 0; $i < $subject_count; $i++) {
+                        $subject_code = trim((string)($subject_codes[$i] ?? ""));
+                        $subject_name = trim((string)($subject_names[$i] ?? ""));
+                        if ($subject_code === "" && $subject_name === "") {
+                            continue;
+                        }
+
+                        $insert_subject->bind_param("sss", $s_id, $subject_code, $subject_name);
+                        if (!$insert_subject->execute()) {
+                            die("SQL execution failed (insert subject): " . $insert_subject->error);
+                        }
+                    }
+
                     header("Location:../edit_information.php?student_id=$s_id&status=success");
                 }else{
                     die("SQL execution failed 2: " . $sql_student_information->error);
