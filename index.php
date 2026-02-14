@@ -94,7 +94,7 @@
                                 <div class="col-12 col-sm-6">
                                     <a href="teacher/login.php?role=director" class="role-box">
                                        <i class="bi bi-person-circle"></i>
-                                        <p class="mb-0 fw-bold">ผู้อำนวยการ</p> </a>
+                                        <p class="mb-0 fw-bold">ผู้บริหารสถานศึกษา</p> </a>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <a href="teacher/login.php?role=admin" class="role-box">
@@ -106,7 +106,7 @@
                             
                             <div class="row">
                                 <div class="col-12">
-                                    <p class="mt-4 mb-0 text-center text-muted">&copy; <?php echo date("Y")?> วิทยาลัยเทคนิคฉะเชิงเทรา</p>
+                                    <p class="mt-4 mb-0 text-center text-muted">&copy; <?php echo date("Y")?> วิทยาลัยเทคนิคฉะเชิงเทรา - โดยนายอาคม วงษ์คง</p>
                                 </div>
                             </div>
                         </div>

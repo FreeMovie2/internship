@@ -48,10 +48,10 @@
                                         <p class="d-md-none text-center"><img class="img-fluid rounded mb-4 w-25" loading="lazy" src="assets/img/logo.png"></p>
                                         
                                         <h2 class="text-center d-md-none">เข้าสู่ระบบ</h2>
-                                        <p class="text-center d-md-none">สำหรับนักเรียน</p>
+                                        <p class="text-center d-md-none">สำหรับผู้เรียน</p>
 
                                         <h2 class="d-none d-md-block">เข้าสู่ระบบ</h2>
-                                        <p class="d-none d-md-block">สำหรับนักเรียน</p>
+                                        <p class="d-none d-md-block">สำหรับผู้เรียน</p>
                                         <?php // AlertBox(); ?>
                                     </div>
                                 </div>
