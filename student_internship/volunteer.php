@@ -21,6 +21,32 @@
 <?php
     include("component/header.php");
 ?>
+<style>
+    @media (max-width: 767.98px) {
+        .volunteer-page .card-body {
+            padding: 1rem;
+        }
+
+        .volunteer-page .card-title {
+            font-size: 1.05rem;
+        }
+
+        .volunteer-page .btn-mobile-full {
+            width: 100%;
+        }
+
+        .volunteer-page #myTable {
+            font-size: 0.92rem;
+        }
+
+        .volunteer-page #myTable td,
+        .volunteer-page #myTable th {
+            white-space: normal !important;
+            word-break: break-word;
+            vertical-align: top;
+        }
+    }
+</style>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
@@ -61,22 +87,22 @@
                                 <div class="card-header">
                                     <h3 class="card-title">บันทึกความดีและจิตอาสา</h3>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body volunteer-page">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-primary mb-3 btn-mobile-full" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">
                                         <i class="bi bi-plus-circle"></i> เพิ่มบันทึก
                                     </button>
 
                                     <?php if($count != 0){ ?>
-                                    <a href="export_volunteer.php" class="btn btn-info mb-3"><i
+                                    <a href="export_volunteer.php" class="btn btn-info mb-3 btn-mobile-full"><i
                                             class="bi bi-printer"></i> พิมพ์เอกสาร</a>
                                     <?php } ?>
 
                                     <!-- Modal -->
                                     <div class="modal fade modal-lg" id="exampleModal" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-fullscreen-sm-down">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มกิจกรรม
@@ -130,7 +156,7 @@
                                     </div>
 
 
-                                    <table id="myTable" class="display">
+                                    <table id="myTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">กิจกรรมที่</th>
@@ -160,7 +186,7 @@
                                                         tabindex="-1"
                                                         aria-labelledby="exampleModalLabel<?php echo $fetch_volunteer['v_id']; ?>"
                                                         aria-hidden="true">
-                                                        <div class="modal-dialog">
+                                                        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-fullscreen-sm-down">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h1 class="modal-title fs-5" id="exampleModalLabel">
@@ -245,7 +271,7 @@
                                                             tabindex="-1"
                                                             aria-labelledby="exampleModalDelLabel<?php echo $fetch_volunteer['v_id']; ?>"
                                                             aria-hidden="true">
-                                                            <div class="modal-dialog">
+                                                            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header" style="border-bottom: none;">
                                                                         <h1 class="modal-title fs-5"
@@ -308,6 +334,33 @@
     <?php
         include("component/script.php");
     ?>
+    <script>
+        (function () {
+            if (typeof $ === "undefined" || typeof $.fn.DataTable === "undefined") {
+                return;
+            }
+
+            if ($.fn.DataTable.isDataTable('#myTable')) {
+                $('#myTable').DataTable().destroy();
+            }
+
+            $('#myTable').DataTable({
+                autoWidth: false,
+                responsive: {
+                    details: {
+                        type: 'inline',
+                        target: 'tr'
+                    }
+                },
+                columnDefs: [
+                    { responsivePriority: 1, targets: 1 },
+                    { responsivePriority: 2, targets: 2 },
+                    { responsivePriority: 3, targets: 0 },
+                    { responsivePriority: 100, targets: 3 }
+                ]
+            });
+        })();
+    </script>
 </body>
 <!--end::Body-->
 
