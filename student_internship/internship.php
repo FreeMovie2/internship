@@ -18,6 +18,32 @@
 <?php
     include("component/header.php");
 ?>
+<style>
+    @media (max-width: 767.98px) {
+        .internship-page {
+            padding: 1rem;
+        }
+
+        .internship-page .card-title {
+            font-size: 1.05rem;
+        }
+
+        .internship-page .btn-mobile-full {
+            width: 100%;
+        }
+
+        .internship-page #myTable {
+            font-size: 0.92rem;
+        }
+
+        .internship-page #myTable td,
+        .internship-page #myTable th {
+            white-space: normal !important;
+            word-break: break-word;
+            vertical-align: top;
+        }
+    }
+</style>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary"> <!--begin::App Wrapper-->
     <div class="app-wrapper"> <!--begin::Header-->
@@ -66,9 +92,9 @@
                                 <div class="card-header">
                                     <h3 class="card-title">บันทึกการฝึกอาชีพ</h3>
                                 </div>
-                                <div class="card-body">
-                                <a href="export_all.php" class="btn btn-info mb-3"><i class="bi bi-printer"></i> พิมพ์เอกสารทุกสัปดาห์</a>
-                                    <table id="myTable" class="display">
+                                <div class="card-body internship-page">
+                                <a href="export_all.php" class="btn btn-info mb-3 btn-mobile-full"><i class="bi bi-printer"></i> พิมพ์เอกสารทุกสัปดาห์</a>
+                                    <table id="myTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">สัปดาห์ที่</th>
@@ -128,6 +154,33 @@
     <?php
         include("component/script.php");
     ?>
+    <script>
+        (function () {
+            if (typeof $ === "undefined" || typeof $.fn.DataTable === "undefined") {
+                return;
+            }
+
+            if ($.fn.DataTable.isDataTable('#myTable')) {
+                $('#myTable').DataTable().destroy();
+            }
+
+            $('#myTable').DataTable({
+                autoWidth: false,
+                responsive: {
+                    details: {
+                        type: 'inline',
+                        target: 'tr'
+                    }
+                },
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: 1 },
+                    { responsivePriority: 3, targets: 3 },
+                    { responsivePriority: 100, targets: 2 }
+                ]
+            });
+        })();
+    </script>
 </body><!--end::Body-->
 
 </html>
