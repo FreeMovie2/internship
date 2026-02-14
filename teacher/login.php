@@ -1,6 +1,14 @@
 <?php
     include(__DIR__ . "/../connect/connect.php");
     include(__DIR__ . "/component/function.php");
+
+    $role = $_GET['role'] ?? '';
+    $roleTextMap = [
+        'head' => 'สำหรับหัวหน้างานทวิภาคี/ครูนิเทศก์',
+        'director' => 'สำหรับผู้บริหารสถานศึกษา',
+        'admin' => 'สำหรับผู้ดูแลระบบ'
+    ];
+    $roleText = $roleTextMap[$role] ?? 'สำหรับผู้บริหารสถานศึกษาและหัวหน้างานทวิภาคี/ครูนิเทศก์';
 ?>
 <!DOCTYPE html>
 <html lang="en"> <!--begin::Head-->
@@ -49,12 +57,13 @@
                                     <p class="d-xxl-none d-xl-none d-lg-none d-md-none text-center">สำหรับนักเรียน</p>
 
                                     <h2 class="d-none d-md-block">เข้าสู่ระบบ</h2>
-                                    <p class="d-none d-md-block">สำหรับผู้บริหารสถานศึกษาและหัวหน้างานทวิภาคี/ครูนิเทศก์</p>
+                                    <p class="d-none d-md-block"><?php echo htmlspecialchars($roleText, ENT_QUOTES, 'UTF-8'); ?></p>
                                     <?php AlertBox(); ?>
                                 </div>
                             </div>
                         </div>
                         <form action="process/login.php" method="post">
+                            <input type="hidden" name="role" value="<?php echo htmlspecialchars($role, ENT_QUOTES, 'UTF-8'); ?>">
                             <div class="row gy-3 overflow-hidden">
                                 <div class="col-12">
                                     <div class="form-floating mb-3">

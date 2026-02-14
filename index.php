@@ -86,18 +86,18 @@
                                     </a>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <a href="teacher/login.php" class="role-box">
+                                    <a href="teacher/login.php?role=head" class="role-box">
                                         <i class="bi bi-person-video3"></i>
-                                        <p class="mb-0 fw-bold">สำหรับอาจารย์</p>
+                                        <p class="mb-0 fw-bold">สำหรับหัวหน้างาน</p>
                                     </a>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <a href="teacher/login.php" class="role-box">
+                                    <a href="teacher/login.php?role=director" class="role-box">
                                        <i class="bi bi-person-circle"></i>
                                         <p class="mb-0 fw-bold">ผู้อำนวยการ</p> </a>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <a href="teacher/login.php" class="role-box">
+                                    <a href="teacher/login.php?role=admin" class="role-box">
                                         <i class="bi bi-person-gear"></i>
                                         <p class="mb-0 fw-bold">ผู้ดูแลระบบ</p>
                                     </a>
@@ -123,3 +123,4 @@
 </body>
 
 </html>
+

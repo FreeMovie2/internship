@@ -2,6 +2,14 @@
     session_start();
     include(__DIR__ . "/../connect/connect.php");
     include(__DIR__ . "/../component/function.php");
+
+    $allowedRoles = ['head', 'director', 'admin'];
+    $role = $_POST['role'] ?? '';
+    if (!in_array($role, $allowedRoles, true)) {
+        $role = '';
+    }
+    $roleQuery = $role !== '' ? '&role=' . urlencode($role) : '';
+
     if(isset($_POST['submit'])){
         $t_username = mysqli_real_escape_string($conn ,$_POST['t_username']);
         $t_password = mysqli_real_escape_string($conn , $_POST['t_password']);
@@ -25,14 +33,14 @@
                 header("Location:../index.php");
                 exit();
             }else{
-                header("Location:../login.php?status=error");
+                header("Location:../login.php?status=error" . $roleQuery);
                 exit();
             }
 
 
             
         }else{
-            header("Location:../login.php?status=error");
+            header("Location:../login.php?status=error" . $roleQuery);
             exit();
         }
     }
