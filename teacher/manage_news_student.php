@@ -18,6 +18,37 @@
 <?php
     include("component/header.php");
 ?>
+<style>
+    @media (max-width: 767.98px) {
+        .manage-news-page .card-body {
+            padding: 1rem;
+        }
+
+        .manage-news-page .card-title,
+        .manage-news-page h4 {
+            font-size: 1.05rem;
+        }
+
+        .manage-news-page .btn-mobile-full {
+            width: 100%;
+        }
+
+        .manage-news-page #myTable {
+            font-size: 0.92rem;
+        }
+
+        .manage-news-page #myTable td,
+        .manage-news-page #myTable th {
+            white-space: normal !important;
+            word-break: break-word;
+            vertical-align: top;
+        }
+
+        .manage-news-page .btn {
+            white-space: normal;
+        }
+    }
+</style>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
@@ -59,7 +90,7 @@
                                 <div class="card-header">
                                     <h3 class="card-title">บริหารจัดการข่าวสารนักเรียน</h3>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body manage-news-page">
                                     <?php
                                         AlertBox();
                                     ?>
@@ -68,7 +99,7 @@
                                         <div class="col-md-12">
                                             <form method="post" action="process/add_news_student.php" enctype="multipart/form-data">
                                                 <input type="text" name="n_author" value="<?php echo $_SESSION['t_id'];?>" class="d-none" readonly>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                <button type="button" class="btn btn-primary btn-mobile-full" data-bs-toggle="modal"
                                                     data-bs-target="#exampleModalDel_verify">
                                                     <i class="bi bi-newspaper"></i> เพิ่มข่าวสาร
                                                 </button>
@@ -79,7 +110,7 @@
                                                     tabindex="-1"
                                                     aria-labelledby="exampleModalDelLabel_verify"
                                                     aria-hidden="true">
-                                                    <div class="modal-dialog">
+                                                    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-fullscreen-sm-down">
                                                         <div class="modal-content">
                                                             <div class="modal-header" style="border-bottom: none;">
                                                                 <h1 class="modal-title fs-5"
@@ -157,7 +188,7 @@
 
 
 
-                                    <table id="myTable" class="display">
+                                    <table id="myTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ลำดับที่</th>
@@ -189,7 +220,7 @@
                                                                 tabindex="-1"
                                                                 aria-labelledby="exampleModalDelLabel_verify<?php echo $fetch_news['n_id']; ?>"
                                                                 aria-hidden="true">
-                                                                <div class="modal-dialog">
+                                                                <div class="modal-dialog modal-lg modal-dialog-scrollable modal-fullscreen-sm-down">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header" style="border-bottom: none;">
                                                                             <h1 class="modal-title fs-5"
@@ -283,7 +314,7 @@
                                                             tabindex="-1"
                                                             aria-labelledby="exampleModalDelLabel<?php echo $fetch_news['n_id']; ?>"
                                                             aria-hidden="true">
-                                                            <div class="modal-dialog">
+                                                            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header"
                                                                         style="border-bottom: none;">
@@ -361,6 +392,33 @@
     <?php
         include("component/script.php");
     ?>
+    <script>
+        (function () {
+            if (typeof $ === "undefined" || typeof $.fn.DataTable === "undefined") {
+                return;
+            }
+
+            if ($.fn.DataTable.isDataTable('#myTable')) {
+                $('#myTable').DataTable().destroy();
+            }
+
+            $('#myTable').DataTable({
+                autoWidth: false,
+                responsive: {
+                    details: {
+                        type: 'inline',
+                        target: 'tr'
+                    }
+                },
+                columnDefs: [
+                    { responsivePriority: 1, targets: 1 },
+                    { responsivePriority: 2, targets: 2 },
+                    { responsivePriority: 3, targets: 0 },
+                    { responsivePriority: 100, targets: [3, 4] }
+                ]
+            });
+        })();
+    </script>
 </body>
 <!--end::Body-->
 
