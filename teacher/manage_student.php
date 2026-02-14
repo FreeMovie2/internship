@@ -18,6 +18,45 @@
 <?php
     include("component/header.php");
 ?>
+<style>
+    @media (max-width: 767.98px) {
+        .manage-student-page .card-body {
+            padding: 1rem;
+        }
+
+        .manage-student-page .card-title,
+        .manage-student-page h4 {
+            font-size: 1.05rem;
+        }
+
+        .manage-student-page .btn-mobile-full {
+            width: 100%;
+        }
+
+        .manage-student-page .download-link {
+            display: block;
+            padding-left: 0.25rem;
+            margin-bottom: 0.35rem;
+            word-break: break-word;
+        }
+
+        .manage-student-page #myTable {
+            font-size: 0.92rem;
+        }
+
+        .manage-student-page #myTable td,
+        .manage-student-page #myTable th {
+            white-space: normal !important;
+            word-break: break-word;
+            vertical-align: top;
+        }
+
+        .manage-student-page .dropdown .btn,
+        .manage-student-page .btn {
+            white-space: normal;
+        }
+    }
+</style>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
@@ -59,18 +98,18 @@
                                 <div class="card-header">
                                     <h3 class="card-title">บริหารจัดการนักเรียนทั้งหมด</h3>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body manage-student-page">
                                     <?php
                                         AlertBox();
                                     ?>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-6">
                                             <h4>นำเข้าฐานข้อมูลนักเรียน (.csv)</h4>
                                             
-                                            <a href="csv_file/student_db.csv" style="text-decoration: none;">&nbsp;&nbsp;&nbsp;1. <i class="bi bi-download"></i> ดาวน์โหลดตัวอย่างฐานข้อมูล</a>
+                                            <a href="csv_file/student_db.csv" style="text-decoration: none;" class="download-link">&nbsp;&nbsp;&nbsp;1. <i class="bi bi-download"></i> ดาวน์โหลดตัวอย่างฐานข้อมูล</a>
                                             <br/>
-                                            <a href="csv_file/student_db.pdf" target="_blank" style="text-decoration: none;">&nbsp;&nbsp;&nbsp;2. <i class="bi bi-download"></i> ดาวน์โหลดคำอธิบายคอลัมน์ตัวอย่างฐานข้อมูล</a>
+                                            <a href="csv_file/student_db.pdf" target="_blank" style="text-decoration: none;" class="download-link">&nbsp;&nbsp;&nbsp;2. <i class="bi bi-download"></i> ดาวน์โหลดคำอธิบายคอลัมน์ตัวอย่างฐานข้อมูล</a>
 
                                             <form action="process/import_student.php" method="post" enctype="multipart/form-data">
                                                 <div class="mb-3 mt-3">
@@ -93,7 +132,7 @@
                                             </form>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-12 col-md-6">
                                             <h4>รีเซ็ตข้อมูลนักเรียนทั้งหมด</h4>
                                             <form method="post" action="process/delete_student_all.php">
                                                 <input type="text" name="t_id" value="<?php echo $_SESSION['t_id'];?>" class="d-none" readonly>
@@ -108,7 +147,7 @@
                                                     tabindex="-1"
                                                     aria-labelledby="exampleModalDelLabel_verify"
                                                     aria-hidden="true">
-                                                    <div class="modal-dialog">
+                                                    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
                                                         <div class="modal-content">
                                                             <div class="modal-header" style="border-bottom: none;">
                                                                 <h1 class="modal-title fs-5"
@@ -171,7 +210,7 @@
                                                     tabindex="-1"
                                                     aria-labelledby="exampleModalDelLabel_verify_del"
                                                     aria-hidden="true">
-                                                    <div class="modal-dialog">
+                                                    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
                                                         <div class="modal-content">
                                                             <div class="modal-header" style="border-bottom: none;">
                                                                 <h1 class="modal-title fs-5"
@@ -224,7 +263,7 @@
                                     <hr>
 
                                     <form method="post" action="process/add_student.php" enctype="multipart/form-data" class="mb-3">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        <button type="button" class="btn btn-primary btn-mobile-full" data-bs-toggle="modal"
                                             data-bs-target="#exampleModalAdd">
                                             <i class="bi bi-person-add"></i> เพิ่มนักเรียน
                                         </button>
@@ -235,7 +274,7 @@
                                             tabindex="-1"
                                             aria-labelledby="exampleModalAdd"
                                             aria-hidden="true">
-                                            <div class="modal-dialog">
+                                            <div class="modal-dialog modal-lg modal-dialog-scrollable modal-fullscreen-sm-down">
                                                 <div class="modal-content">
                                                     <div class="modal-header" style="border-bottom: none;">
                                                         <h1 class="modal-title fs-5"
@@ -332,7 +371,7 @@
 
 
 
-                                    <table id="myTable" class="display">
+                                    <table id="myTable" class="table table-striped table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ลำดับที่</th>
@@ -507,6 +546,33 @@
     <?php
         include("component/script.php");
     ?>
+    <script>
+        (function () {
+            if (typeof $ === "undefined" || typeof $.fn.DataTable === "undefined") {
+                return;
+            }
+
+            if ($.fn.DataTable.isDataTable('#myTable')) {
+                $('#myTable').DataTable().destroy();
+            }
+
+            $('#myTable').DataTable({
+                autoWidth: false,
+                responsive: {
+                    details: {
+                        type: 'inline',
+                        target: 'tr'
+                    }
+                },
+                columnDefs: [
+                    { responsivePriority: 1, targets: 1 },
+                    { responsivePriority: 2, targets: 4 },
+                    { responsivePriority: 3, targets: 0 },
+                    { responsivePriority: 100, targets: [2, 3, 5] }
+                ]
+            });
+        })();
+    </script>
 </body>
 <!--end::Body-->
 
