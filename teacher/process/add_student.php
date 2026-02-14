@@ -15,6 +15,7 @@
         $s_major = '';              // สาขา
         $s_grade = '';              // เกรด
         $s_tel = '';                // เบอร์โทร
+        $s_line_id = '';
         $s_email = '';              // อีเมล
         $s_special = '-,-,-';       // ค่าพิเศษ
         $s_pic = '';                // รูปภาพ
@@ -62,21 +63,21 @@
         // เตรียมคำสั่ง SQL สำหรับเพิ่มข้อมูลนักเรียน
         $sql_insert = "INSERT INTO students 
                         (s_id, s_student_id, s_prefix, s_name, s_surname, s_year, s_type_edu, 
-                        s_major, s_grade, s_tel, s_email, s_special, s_pic, s_update_information, 
+                        s_major, s_grade, s_tel, s_line_id, s_email, s_special, s_pic, s_update_information, 
                         s_username, s_password, s_last_login) 
-                        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if ($stmt = $conn->prepare($sql_insert)) {
             // bind_param (ชนิดข้อมูล: s=string, i=integer)
             $stmt->bind_param(
-                "ssssssssssssssss", 
+                "sssssssssssssssss", 
                 $s_student_id, $s_prefix, $s_name, $s_surname, $s_year, 
-                $s_type_edu, $s_major, $s_grade, $s_tel, $s_email, 
+                $s_type_edu, $s_major, $s_grade, $s_tel, $s_line_id, $s_email, 
                 $s_special, $s_pic, $s_update_information, $s_username, 
                 $s_password, $s_last_login
             );
 
-            // ดำเนินการ query
+           // ดำเนินการ query
             if ($stmt->execute()) {
                 $s_id_ref = (int)$conn->insert_id;
 
@@ -114,3 +115,4 @@
         exit();
     }
 ?>
+

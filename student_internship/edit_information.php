@@ -214,6 +214,11 @@
                                             <input type="text" class="form-control" id="s_tel" name="s_tel"
                                                 value="<?php echo $fetch_student['s_tel']; ?>" required>
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="s_line_id" class="form-label">Line ID</label>
+                                            <input type="text" class="form-control" id="s_line_id" name="s_line_id"
+                                                value="<?php echo $fetch_student['s_line_id'] ?? ''; ?>">
+                                        </div>
 
                                         <div class="mb-3">
                                             <label for="s_email" class="form-label">อีเมล</label>

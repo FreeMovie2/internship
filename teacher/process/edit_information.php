@@ -23,6 +23,7 @@
         $s_medicine = htmlspecialchars($_POST['s_medicine'] ?? '');
         $s_blood = htmlspecialchars($_POST['s_blood'] ?? '');
         $s_tel = htmlspecialchars($_POST['s_tel'] ?? '');
+        $s_line_id = htmlspecialchars($_POST['s_line_id'] ?? '');
         $s_email = htmlspecialchars($_POST['s_email'] ?? '');
         $specials = [];
         for ($i = 0; isset($_POST["s_special$i"]); $i++) {
@@ -99,15 +100,16 @@
             s_major = ?, 
             s_grade = ?,
             s_tel = ?, 
+            s_line_id = ?,
             s_email = ?,
             s_special = ?,
             s_pic = ?,
             s_update_information = ?
             WHERE s_id = ?");
 
-            $sql_student->bind_param("sssssssssssssi", 
+            $sql_student->bind_param("ssssssssssssssi", 
                 $s_prefix, $s_name, $s_surname, $s_year, $s_student_id, 
-                $s_type_edu, $s_major, $s_grade, $s_tel, $s_email, 
+                $s_type_edu, $s_major, $s_grade, $s_tel, $s_line_id, $s_email, 
                 $s_special, $fileName1, $s_update_information, $s_id);
             
                 

@@ -26,6 +26,7 @@
             $_SESSION["s_update_information"] = $fetch["s_update_information"];
             $_SESSION["s_grade"] = $fetch["s_grade"];
             $_SESSION["s_tel"] = $fetch["s_tel"];
+            $_SESSION["s_line_id"] = $fetch["s_line_id"];
             $_SESSION["s_email"] = $fetch["s_email"];
             $_SESSION["s_special"] = $fetch["s_special"];
             $_SESSION["s_pic"] = $fetch["s_pic"];

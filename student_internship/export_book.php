@@ -300,6 +300,7 @@
             <p class="border-dotted">
                 <b>&nbsp;&nbsp;&nbsp;&nbsp;กลุ่มเลือด&nbsp;</b> <span><?php echo $fetch_information["s_blood"]; ?></span>
                 <b>&nbsp;โทรศัพท์&nbsp;</b> <span><?php echo $fetch_student["s_tel"]; ?></span>
+                <b>&nbsp;Line ID&nbsp;</b> <span><?php echo $fetch_student["s_line_id"] ?? ''; ?></span>
                 <b>&nbsp;Email&nbsp;</b> <span><?php echo $fetch_student["s_email"]; ?></span>
             </p>
 

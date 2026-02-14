@@ -41,6 +41,7 @@
                     $s_major = '';              // สาขา
                     $s_grade = '';              // เกรด
                     $s_tel = '';                // เบอร์โทร
+                    $s_line_id = '';
                     $s_email = '';              // อีเมล
                     $s_special = '-,-,-';       // ค่าพิเศษ
                     $s_pic = '';                // รูปภาพ
@@ -50,15 +51,15 @@
 
                     $sql_student = "INSERT INTO students 
                         (s_id, s_student_id, s_prefix, s_name, s_surname, s_year, s_type_edu, 
-                        s_major, s_grade, s_tel, s_email, s_special, s_pic, s_update_information, 
+                        s_major, s_grade, s_tel, s_line_id, s_email, s_special, s_pic, s_update_information, 
                         s_username, s_password, s_last_login) 
-                        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     $stmt_student = $conn->prepare($sql_student);
 
                     $stmt_student->bind_param(
-                        "ssssssssssssssss", 
+                        "sssssssssssssssss", 
                         $s_student_id, $s_prefix, $s_name, $s_surname, $s_year, 
-                        $s_type_edu, $s_major, $s_grade, $s_tel, $s_email, 
+                        $s_type_edu, $s_major, $s_grade, $s_tel, $s_line_id, $s_email, 
                         $s_special, $s_pic, $s_update_information, $s_username, 
                         $s_password, $s_last_login
                     );
