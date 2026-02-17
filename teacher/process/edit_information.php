@@ -171,43 +171,43 @@
                     $s_id);
                     
                 if($sql_student_information->execute()){
-                    $delete_subjects = $conn->prepare("DELETE FROM student_internship_subjects WHERE s_id = ?");
-                    if (!$delete_subjects) {
-                        die("SQL prepare failed (delete subjects): " . $conn->error);
-                    }
-                    $delete_subjects->bind_param("s", $s_id);
-                    if (!$delete_subjects->execute()) {
-                        die("SQL execution failed (delete subjects): " . $delete_subjects->error);
+                    // Some production DBs may not have this table yet.
+                    $subject_table_exists = false;
+                    $check_subject_table = $conn->query("SHOW TABLES LIKE 'student_internship_subjects'");
+                    if ($check_subject_table && $check_subject_table->num_rows > 0) {
+                        $subject_table_exists = true;
                     }
 
-                    $insert_subject = $conn->prepare("INSERT INTO student_internship_subjects (s_id, subject_code, subject_name, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
-                    if (!$insert_subject) {
-                        die("SQL prepare failed (insert subjects): " . $conn->error);
-                    }
-
-                    $subject_count = max(count($subject_codes), count($subject_names));
-                    for ($i = 0; $i < $subject_count; $i++) {
-                        $subject_code = trim((string)($subject_codes[$i] ?? ""));
-                        $subject_name = trim((string)($subject_names[$i] ?? ""));
-                        if ($subject_code === "" && $subject_name === "") {
-                            continue;
+                    if ($subject_table_exists) {
+                        $delete_subjects = $conn->prepare("DELETE FROM student_internship_subjects WHERE s_id = ?");
+                        if ($delete_subjects) {
+                            $delete_subjects->bind_param("s", $s_id);
+                            $delete_subjects->execute();
                         }
 
-                        $insert_subject->bind_param("sss", $s_id, $subject_code, $subject_name);
-                        if (!$insert_subject->execute()) {
-                            die("SQL execution failed (insert subject): " . $insert_subject->error);
+                        $insert_subject = $conn->prepare("INSERT INTO student_internship_subjects (s_id, subject_code, subject_name, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
+                        if ($insert_subject) {
+                            $subject_count = max(count($subject_codes), count($subject_names));
+                            for ($i = 0; $i < $subject_count; $i++) {
+                                $subject_code = trim((string)($subject_codes[$i] ?? ""));
+                                $subject_name = trim((string)($subject_names[$i] ?? ""));
+                                if ($subject_code === "" && $subject_name === "") {
+                                    continue;
+                                }
+
+                                $insert_subject->bind_param("sss", $s_id, $subject_code, $subject_name);
+                                $insert_subject->execute();
+                            }
                         }
                     }
 
                     header("Location:../edit_information.php?student_id=$s_id&status=success");
                 }else{
-                    die("SQL execution failed 2: " . $sql_student_information->error);
-                    echo($h);
+                    header("Location:../edit_information.php?student_id=$s_id&status=error");
                 }
 
             }else{
-                die("SQL execution failed 1: " . $sql_student->error);
-                echo($h);
+                header("Location:../edit_information.php?student_id=$s_id&status=error");
             }
         }
         
