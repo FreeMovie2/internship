@@ -34,6 +34,19 @@
         margin-bottom: 0.75rem;
         color: #0d6efd;
     }
+
+    .role-row > [class*="col-"] {
+        display: flex;
+    }
+
+    .role-row .role-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 <body class="bg-danger">
@@ -78,7 +91,7 @@
                                 </div>
                             </div>
                             
-                            <div class="row gy-3">
+                            <div class="row gy-3 role-row">
                                 <div class="col-12 col-sm-6">
                                     <a href="student_internship/login.php" class="role-box">
                                         <i class="bi bi-people-fill"></i>
@@ -88,7 +101,7 @@
                                 <div class="col-12 col-sm-6">
                                     <a href="teacher/login.php?role=head" class="role-box">
                                         <i class="bi bi-person-video3"></i>
-                                        <p class="mb-0 fw-bold">สำหรับหัวหน้างาน</p>
+                                        <p class="mb-0 fw-bold">สำหรับหัวหน้างานทวิภาคี/ครูนิเทศ</p>
                                     </a>
                                 </div>
                                 <div class="col-12 col-sm-6">
