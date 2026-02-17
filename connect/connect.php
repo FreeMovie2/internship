@@ -1,20 +1,26 @@
 <?php
-    error_reporting(0);
-    $host = 'localhost'; //แก้ไขส่วนนนี้
-    // $username = 'idwebonl_intership'; //แก้ไขส่วนนนี้
-    // $password = 'kY95RZZNKerh6aehu6dE'; //แก้ไขส่วนนนี้
-    // $database_name = 'idwebonl_intership'; //แก้ไขส่วนนนี้
+error_reporting(0);
 
-    $username = 'root'; //แก้ไขส่วนนนี้
-    $password = ''; //แก้ไขส่วนนนี้
-    $database_name = 'student_internship'; //แก้ไขส่วนนนี้
-    
-    $conn = new mysqli($host,$username,$password,$database_name);
+$host = 'localhost';
+$serverName = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
+$serverName = explode(':', $serverName)[0];
+$isLocal = in_array($serverName, ['localhost', '127.0.0.1', '::1'], true);
 
-    if($conn->connect_errno){
-        die("Connect failed" .$conn->connect_errno); 
-    }
-    
-    $conn->set_charset('UTF8')
+if ($isLocal) {
+    $username = 'root';
+    $password = '';
+    $database_name = 'student_internship';
+} else {
+    $username = 'idwebonl_intership';
+    $password = 'kY95RZZNKerh6aehu6dE';
+    $database_name = 'idwebonl_intership';
+}
 
+$conn = new mysqli($host, $username, $password, $database_name);
+
+if ($conn->connect_errno) {
+    die('Connect failed ' . $conn->connect_errno);
+}
+
+$conn->set_charset('UTF8');
 ?>
