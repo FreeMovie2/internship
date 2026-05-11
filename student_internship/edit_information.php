@@ -149,7 +149,7 @@
                                                     <option value="<?php echo $fetch_student['s_type_edu']; ?>"><?php echo $fetch_student['s_type_edu']; ?></option>
                                                     <option>ภาคปกติ</option>
                                                     <option>ภาคสมทบ</option>
-                                                    <option>ระบบทวิภาค</option>
+                                                    <option>ระบบทวิภาคี</option>
                                                 </select>
                                         </div>
 
