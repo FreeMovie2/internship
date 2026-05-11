@@ -688,12 +688,21 @@
 
             const emailInput = form.querySelector('#s_email');
             if (emailInput) {
-                emailInput.addEventListener('input', function () {
+                const validateEmailInput = function () {
+                    this.value = this.value.trim();
                     if (!this.value || this.validity.valid) {
                         this.setCustomValidity('');
                     } else {
-                        this.setCustomValidity('Invalid email format');
+                        this.setCustomValidity('กรุณากรอกอีเมลให้ถูกต้อง');
                     }
+                };
+
+                emailInput.value = emailInput.value.trim();
+                emailInput.addEventListener('input', validateEmailInput);
+                emailInput.addEventListener('blur', validateEmailInput);
+
+                form.addEventListener('submit', function () {
+                    validateEmailInput.call(emailInput);
                 });
             }
         })();
