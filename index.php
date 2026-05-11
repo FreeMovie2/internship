@@ -95,13 +95,13 @@
                                 <div class="col-12 col-sm-6">
                                     <a href="student_internship/login.php" class="role-box">
                                         <i class="bi bi-people-fill"></i>
-                                        <p class="mb-0 fw-bold">สำหรับนักเรียน</p>
+                                        <p class="mb-0 fw-bold">สำหรับผู้เรียน</p>
                                     </a>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <a href="teacher/login.php?role=head" class="role-box">
                                         <i class="bi bi-person-video3"></i>
-                                        <p class="mb-0 fw-bold">สำหรับหัวหน้างานทวิภาคี/ครูนิเทศ</p>
+                                        <p class="mb-0 fw-bold">สำหรับหัวหน้างานทวิภาคี/ครูนิเทศก์</p>
                                     </a>
                                 </div>
                                 <div class="col-12 col-sm-6">
