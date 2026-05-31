@@ -28,6 +28,7 @@
                 $_SESSION["t_name"] = $fetch["t_name"];
                 $_SESSION["t_surname"] = $fetch["t_surname"];
                 $_SESSION["t_status"] = $fetch["t_status"];
+                $_SESSION["t_role"] = $role;
  
 
                 header("Location:../index.php");

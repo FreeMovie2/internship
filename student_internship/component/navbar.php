@@ -12,6 +12,9 @@
         <!--end::Start Navbar Links-->
         <!--begin::End Navbar Links-->
         <ul class="navbar-nav ms-auto">
+            <!--begin::Manual Link-->
+            <li class="nav-item"> <a class="btn btn-warning btn-sm" href="../manual/student_manual.pdf" target="_blank"> <i class="bi bi-file-pdf"></i> คู่มือการใช้ระบบ </a> </li>
+            <!--end::Manual Link-->
             <!--begin::Fullscreen Toggle-->
             <li class="nav-item"> <a class="nav-link" href="#" data-lte-toggle="fullscreen"> <i data-lte-icon="maximize"
                         class="bi bi-arrows-fullscreen"></i> <i data-lte-icon="minimize" class="bi bi-fullscreen-exit"
