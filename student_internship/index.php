@@ -5,7 +5,7 @@
         header("Location:login.php");
         exit();
     }else{
-        $sql_news = $conn->prepare("SELECT * FROM news ORDER BY n_id ASC");
+        $sql_news = $conn->prepare("SELECT * FROM news ORDER BY n_id DESC");
         $sql_news->execute();
         $result_news = $sql_news->get_result();
         
