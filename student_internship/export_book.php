@@ -195,11 +195,19 @@
     }
 </style>
 
+<script>
+    function PrintPDF() {
+        var studentName = "<?php echo $fetch_student['s_prefix'].$fetch_student['s_name'].' '.$fetch_student['s_surname'].' '.$fetch_student['s_student_id']; ?>";
+        document.title = studentName;
+        window.print();
+    }
+</script>
+
 <body>
 
     <form style="text-align: center;">
         <input class="MyButton" type="button" value="กลับหน้าหลัก" onclick="window.location.href='index.php'" />
-        <input class="MyButton2" type="button" value="พิมพ์/ส่งออก" onclick="window.print();" />
+        <input class="MyButton2" type="button" value="พิมพ์/ส่งออก" onclick="PrintPDF();" />
     </form>
 
     <!-- Company Information -->
