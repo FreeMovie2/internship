@@ -255,7 +255,7 @@
                 <p class="text-center"><img src="../student_internship/information_file/company/<?php echo $fetch_company["c_map"]; ?>" class="ing-fluid img-frame"/></p>
             </div>
             
-            <p class="text-center mt-3"><b>แผนผังโครงสร้างตำแหน่งงานของสถานประกอบการณ์</b></p>
+            <p class="text-center mt-3"><b>แผนผังโครงสร้างตำแหน่งงานของสถานประกอบการ</b></p>
             <div class="image-block">
                 <p class="text-center"><img src="../student_internship/information_file/company/<?php echo $fetch_company["c_org"]; ?>" class="ing-fluid img-frame"/></p>
             </div>
