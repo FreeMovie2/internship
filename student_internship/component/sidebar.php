@@ -49,7 +49,7 @@
                 </li>
                 <li class="nav-item"> 
                     <a href="internship.php" class="nav-link"> <i class="nav-icon bi bi-book"></i>
-                        <p>บันทึกการฝึกอาชีพ</p>
+                        <p>บันทึกการฝึกประสบการณ์สมรรถนะวิชาชีพ</p>
                     </a>
                 </li>
 
