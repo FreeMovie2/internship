@@ -29,7 +29,7 @@
                             <img class="img-fluid rounded mb-4 w-25" loading="lazy" src="assets/img/3.png">
                             
                             <hr class="border-primary-subtle mb-4">
-                            <h2 class="h1 mb-4">ระบบการฝึกประสบการณ์สมรรถนะวิชาชีพ/ฝึกอาชีพ</h2>
+                            <h2 class="h1 mb-4">ระบบการจัดการฝึกประสบการณ์สมรรถนะวิชาชีพของผู้เรียนสังกัดสำนักงานคณะกรรมการอาชีวศึกษา</h2>
                             <p class="lead mb-5"><?php echo $fetch['s_school_name']; ?></p>
                             <div class="text-endx">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-grip-horizontal" viewBox="0 0 16 16">
