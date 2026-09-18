@@ -52,10 +52,10 @@
             }
         }elseif($i_img1_file_name == '' && $i_img2_file_name != ''){
             $ext2 = pathinfo($i_img2_file_name, PATHINFO_EXTENSION);
-            if (!in_array($ext2, $allowed)) {
+            if (!in_array($ext, $allowed) || !in_array($ext2, $allowed)) {
                 header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
             }else{
-
+               
                 $f2 = 'Image-Internship2-';
                 $br = '_';
               
@@ -102,8 +102,8 @@
 
         }elseif($i_img1_file_name != '' && $i_img2_file_name == ''){
             $ext = pathinfo($i_img1_file_name, PATHINFO_EXTENSION);
-
-            if (!in_array($ext, $allowed)) {
+          
+            if (!in_array($ext, $allowed) || !in_array($ext2, $allowed)) {
                 header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
             }else{
                 $f = 'Image-Internship-';
