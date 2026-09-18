@@ -107,11 +107,11 @@
                             </a> 
                         </li>
 
-                        <li class="nav-item"> 
-                            <a href="export_internship.php" class="nav-link"> 
+                        <li class="nav-item">
+                            <a href="../docs/แบบประเมินสมรรถนะการฝึกงานในสถานประกอบการ.pdf" class="nav-link" target="_blank">
                                 <i class="nav-icon bi bi-file-earmark-text"></i>
                                 <p>แบบประเมินการฝึกอาชีพ</p>
-                            </a> 
+                            </a>
                         </li>
 
                         <li class="nav-item"> 
