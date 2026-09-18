@@ -23,7 +23,11 @@
             </div>';
         }elseif(isset($_GET['status']) && $_GET['status'] == 'success'){
             echo '<div class="callout callout-success mb-3">
-                    บันทึกข้อมูลเรียบร้อยแล้ว !        
+                    บันทึกข้อมูลเรียบร้อยแล้ว !
+            </div>';
+        }elseif(isset($_GET['status']) && $_GET['status'] == 'duplicate'){
+            echo '<div class="callout callout-warning mb-3">
+                    มีการบันทึกข้อมูลวันนี้ไปแล้ว กรุณากดปุ่ม "แก้ไข" แทน
             </div>';
         }else{
            

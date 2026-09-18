@@ -15,6 +15,17 @@ if (isset($_POST['submit'])) {
     $i_day = $_POST["i_day"];
     $s_student_id = $_POST["s_student_id"];
 
+    // ตรวจสอบว่ามีการบันทึกวัน/สัปดาห์นี้ไปแล้วหรือยัง เพื่อป้องกันข้อมูลซ้ำ
+    $dupChecker = $conn->prepare("SELECT COUNT(*) AS cnt FROM internship WHERE i_s_id = ? AND i_week = ? AND i_day = ?");
+    $dupChecker->bind_param("iii", $i_s_id, $i_week, $i_day);
+    $dupChecker->execute();
+    $dupResult = $dupChecker->get_result()->fetch_assoc();
+
+    if ($dupResult['cnt'] > 0) {
+        header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=duplicate");
+        exit();
+    }
+
     // คำนวณชั่วโมง
     $startTime = new DateTime($i_start);
     $endTime = new DateTime($i_end);
