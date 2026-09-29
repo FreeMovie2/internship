@@ -29,6 +29,10 @@
             echo '<div class="callout callout-warning mb-3">
                     มีการบันทึกข้อมูลวันนี้ไปแล้ว กรุณากดปุ่ม "แก้ไข" แทน
             </div>';
+        }elseif(isset($_GET['status']) && $_GET['status'] == 'error_size'){
+            echo '<div class="callout callout-danger mb-3">
+                    ขนาดไฟล์รูปภาพใหญ่เกินไป (จำกัดไม่เกิน '.htmlspecialchars(ini_get('upload_max_filesize')).' ต่อไฟล์) กรุณาลดขนาดไฟล์แล้วลองใหม่อีกครั้ง !
+            </div>';
         }else{
            
         }

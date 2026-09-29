@@ -43,7 +43,11 @@
             </div>';
         }elseif(isset($_GET['status']) && $_GET['status'] == 'error_del'){
             echo '<div class="callout callout-danger mb-3">
-                    ไม่สามารถลบบัญชี Default Admin บัญชีนี้ได้ !     
+                    ไม่สามารถลบบัญชี Default Admin บัญชีนี้ได้ !
+            </div>';
+        }elseif(isset($_GET['status']) && $_GET['status'] == 'error_size'){
+            echo '<div class="callout callout-danger mb-3">
+                    ขนาดไฟล์ใหญ่เกินไป (จำกัดไม่เกิน '.htmlspecialchars(ini_get('upload_max_filesize')).' ต่อไฟล์) กรุณาลดขนาดไฟล์แล้วลองใหม่อีกครั้ง !
             </div>';
         }else{
            

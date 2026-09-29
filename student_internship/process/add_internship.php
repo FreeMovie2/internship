@@ -8,8 +8,8 @@ if (isset($_POST['submit'])) {
     $i_start = $_POST["i_start"];
     $i_end = $_POST["i_end"];
     $i_detail = $_POST["i_detail"];
-    $i_img1_detail = $_POST["i_img1_detail"];
-    $i_img2_detail = $_POST["i_img2_detail"];
+    $i_img1_detail = htmlspecialchars($_POST["i_img1_detail"]);
+    $i_img2_detail = htmlspecialchars($_POST["i_img2_detail"]);
     $i_s_id = $_POST["i_s_id"];
     $i_week = $_POST["i_week"];
     $i_day = $_POST["i_day"];
@@ -45,12 +45,25 @@ if (isset($_POST['submit'])) {
     // จัดการรูปภาพ 1
     // ==========
     $fileName1 = "no_img.jpg";
-    if (isset($_FILES['i_img1']) && $_FILES['i_img1']['error'] == 0) {
+    if (isset($_FILES['i_img1']) && $_FILES['i_img1']['error'] != UPLOAD_ERR_NO_FILE) {
+        if (in_array($_FILES['i_img1']['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE])) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_size");
+            exit();
+        }
+        if ($_FILES['i_img1']['error'] != UPLOAD_ERR_OK) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+            exit();
+        }
         $ext = strtolower(pathinfo($_FILES['i_img1']['name'], PATHINFO_EXTENSION));
-        if (in_array($ext, $allowed)) {
-            $fileName1 = $f . $i_week . $br . $i_day . $br . $i_s_id . $br . $s_student_id . '.' . $ext;
-            $uploadFilePath1 = $uploadDir . $fileName1;
-            move_uploaded_file($_FILES['i_img1']['tmp_name'], $uploadFilePath1);
+        if (!in_array($ext, $allowed)) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+            exit();
+        }
+        $fileName1 = $f . $i_week . $br . $i_day . $br . $i_s_id . $br . $s_student_id . '.' . $ext;
+        $uploadFilePath1 = $uploadDir . $fileName1;
+        if (!move_uploaded_file($_FILES['i_img1']['tmp_name'], $uploadFilePath1)) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+            exit();
         }
     }
 
@@ -58,12 +71,25 @@ if (isset($_POST['submit'])) {
     // จัดการรูปภาพ 2
     // ==========
     $fileName2 = "no_img.jpg";
-    if (isset($_FILES['i_img2']) && $_FILES['i_img2']['error'] == 0) {
+    if (isset($_FILES['i_img2']) && $_FILES['i_img2']['error'] != UPLOAD_ERR_NO_FILE) {
+        if (in_array($_FILES['i_img2']['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE])) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_size");
+            exit();
+        }
+        if ($_FILES['i_img2']['error'] != UPLOAD_ERR_OK) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+            exit();
+        }
         $ext2 = strtolower(pathinfo($_FILES['i_img2']['name'], PATHINFO_EXTENSION));
-        if (in_array($ext2, $allowed)) {
-            $fileName2 = $f2 . $i_week . $br . $i_day . $br . $i_s_id . $br . $s_student_id . '.' . $ext2;
-            $uploadFilePath2 = $uploadDir . $fileName2;
-            move_uploaded_file($_FILES['i_img2']['tmp_name'], $uploadFilePath2);
+        if (!in_array($ext2, $allowed)) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+            exit();
+        }
+        $fileName2 = $f2 . $i_week . $br . $i_day . $br . $i_s_id . $br . $s_student_id . '.' . $ext2;
+        $uploadFilePath2 = $uploadDir . $fileName2;
+        if (!move_uploaded_file($_FILES['i_img2']['tmp_name'], $uploadFilePath2)) {
+            header("Location: ../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+            exit();
         }
     }
 

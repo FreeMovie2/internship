@@ -7,8 +7,8 @@
         $i_start = $_POST["i_start"];
         $i_end = $_POST["i_end"];
         $i_detail = $_POST["i_detail"];
-        $i_img1_detail = $_POST["i_img1_detail"];
-        $i_img2_detail = $_POST["i_img2_detail"];
+        $i_img1_detail = htmlspecialchars($_POST["i_img1_detail"]);
+        $i_img2_detail = htmlspecialchars($_POST["i_img2_detail"]);
         $i_s_id = $_POST["i_s_id"];
         $i_week = $_POST["i_week"];
         $i_day = $_POST["i_day"];
@@ -20,19 +20,31 @@
         $hours = $interval->h;
         $days_eng = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-        $allowed = array('png', 'jpeg', 'jpg', 'heic', "HEIC"); 
+        $allowed = array('png', 'jpeg', 'jpg', 'heic', "HEIC");
         $i_img1_file_name = $_FILES['i_img1']['name'];
         $i_img2_file_name = $_FILES['i_img2']['name'];
+        $uploadDir = "../uploaded/internship_img/";
+
+        if (in_array($_FILES['i_img1']['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE]) ||
+            in_array($_FILES['i_img2']['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE])) {
+            header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_size");
+            exit();
+        }
+
+        $sql_check = $conn->prepare("SELECT i_img1, i_img2 FROM internship WHERE i_id = ?");
+        $sql_check->bind_param("i", $i_id);
+        $sql_check->execute();
+        $old_row = $sql_check->get_result()->fetch_assoc();
 
         if($i_img1_file_name == '' && $i_img2_file_name == ''){
-            $sql = $conn->prepare("UPDATE internship SET 
+            $sql = $conn->prepare("UPDATE internship SET
             `i_img1_detail` = ?,
             `i_img2_detail` = ?,
-            `i_date` = ?, 
-            `i_detail` = ?, 
-            `i_week` = ?, 
-            `i_day` = ?, 
-            `i_start` = ?, 
+            `i_date` = ?,
+            `i_detail` = ?,
+            `i_week` = ?,
+            `i_day` = ?,
+            `i_start` = ?,
             `i_end` = ?,
             `i_count` = ?,
             `i_s_id` = ?
@@ -40,120 +52,136 @@
 
             $sql->bind_param("ssssisssiii",
             $i_img1_detail, $i_img2_detail,
-            $i_date, $i_detail, 
-            $i_week, $i_day, 
+            $i_date, $i_detail,
+            $i_week, $i_day,
             $i_start, $i_end,
             $hours, $i_s_id, $i_id);
             if($sql->execute()){
                 header("Location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=success");
             }else{
-                die("SQL execution failed: " . $sql->error);
-                echo($h);
+                header("Location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error");
             }
+            exit();
         }elseif($i_img1_file_name == '' && $i_img2_file_name != ''){
             $ext2 = pathinfo($i_img2_file_name, PATHINFO_EXTENSION);
-            if (!in_array($ext, $allowed) || !in_array($ext2, $allowed)) {
+            if (!in_array($ext2, $allowed)) {
                 header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+                exit();
             }else{
-               
+
                 $f2 = 'Image-Internship2-';
                 $br = '_';
-              
+
                 $temp2 = explode('.',$_FILES['i_img2']['name']);
                 $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-                $uploadDir = "../uploaded/internship_img/"; 
-               
+
                 $fileName2 = $f2.$i_week.$br.$i_day.$br.$i_s_id.$br.$s_student_id.'.'.end($temp2) ;
-                
-                $uploadFilePath2 = $uploadDir.$fileName2; 
-               
-                move_uploaded_file($_FILES['i_img2']['tmp_name'], $uploadFilePath2);    
-    
-                $sql = $conn->prepare("UPDATE internship SET 
-                `i_img2` = ?, 
+
+                $uploadFilePath2 = $uploadDir.$fileName2;
+
+                if($old_row && !empty($old_row['i_img2']) && is_file($uploadDir.$old_row['i_img2'])){
+                    unlink($uploadDir.$old_row['i_img2']);
+                }
+
+                if (!move_uploaded_file($_FILES['i_img2']['tmp_name'], $uploadFilePath2)) {
+                    header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+                    exit();
+                }
+
+                $sql = $conn->prepare("UPDATE internship SET
+                `i_img2` = ?,
                 `i_img1_detail` = ?,
                 `i_img2_detail` = ?,
-                `i_date` = ?, 
-                `i_detail` = ?, 
-                `i_week` = ?, 
-                `i_day` = ?, 
-                `i_start` = ?, 
+                `i_date` = ?,
+                `i_detail` = ?,
+                `i_week` = ?,
+                `i_day` = ?,
+                `i_start` = ?,
                 `i_end` = ?,
                 `i_count` = ?,
                 `i_s_id` = ?
                 WHERE `i_id` = ?");
-    
+
                 $sql->bind_param("sssssisssiii",
                 $fileName2,
                 $i_img1_detail, $i_img2_detail,
-                $i_date, $i_detail, 
-                $i_week, $i_day, 
+                $i_date, $i_detail,
+                $i_week, $i_day,
                 $i_start, $i_end,
                 $hours, $i_s_id, $i_id);
                 if($sql->execute()){
                     header("Location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=success");
                 }else{
                     die("SQL execution failed: " . $sql->error);
-                    echo($h);
-                }      
-    
+                }
+                exit();
+
             }
-      
+
 
         }elseif($i_img1_file_name != '' && $i_img2_file_name == ''){
             $ext = pathinfo($i_img1_file_name, PATHINFO_EXTENSION);
-          
-            if (!in_array($ext, $allowed) || !in_array($ext2, $allowed)) {
+
+            if (!in_array($ext, $allowed)) {
                 header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+                exit();
             }else{
                 $f = 'Image-Internship-';
                 $br = '_';
                 $temp1 = explode('.',$_FILES['i_img1']['name']);
-               
+
                 $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-                $uploadDir = "../uploaded/internship_img/"; 
                 $fileName1 = $f.$i_week.$br.$i_day.$br.$i_s_id.$br.$s_student_id.'.'.end($temp1) ;
-               
-                $uploadFilePath1 = $uploadDir.$fileName1; 
-                move_uploaded_file($_FILES['i_img1']['tmp_name'], $uploadFilePath1);    
-             
-    
-                $sql = $conn->prepare("UPDATE internship SET 
+
+                $uploadFilePath1 = $uploadDir.$fileName1;
+
+                if($old_row && !empty($old_row['i_img1']) && is_file($uploadDir.$old_row['i_img1'])){
+                    unlink($uploadDir.$old_row['i_img1']);
+                }
+
+                if (!move_uploaded_file($_FILES['i_img1']['tmp_name'], $uploadFilePath1)) {
+                    header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+                    exit();
+                }
+
+
+                $sql = $conn->prepare("UPDATE internship SET
                 `i_img1` = ?,
                 `i_img1_detail` = ?,
-                `i_img2_detail` = ?,  
-                `i_date` = ?, 
-                `i_detail` = ?, 
-                `i_week` = ?, 
-                `i_day` = ?, 
-                `i_start` = ?, 
+                `i_img2_detail` = ?,
+                `i_date` = ?,
+                `i_detail` = ?,
+                `i_week` = ?,
+                `i_day` = ?,
+                `i_start` = ?,
                 `i_end` = ?,
                 `i_count` = ?,
                 `i_s_id` = ?
                 WHERE `i_id` = ?");
-    
+
                 $sql->bind_param("ssssisssiii",
                 $fileName1,
-                $i_img1_detail, $i_img2_detail, 
-                $i_date, $i_detail, 
-                $i_week, $i_day, 
+                $i_img1_detail, $i_img2_detail,
+                $i_date, $i_detail,
+                $i_week, $i_day,
                 $i_start, $i_end,
                 $hours, $i_s_id, $i_id);
                 if($sql->execute()){
                     header("Location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=success");
                 }else{
-                    die("SQL execution failed: " . $sql->error);
-                    echo($h);
-                }         
-    
+                    header("Location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error");
+                }
+                exit();
+
             }
 
-               
+
         }else{
             $ext = pathinfo($i_img1_file_name, PATHINFO_EXTENSION);
             $ext2 = pathinfo($i_img2_file_name, PATHINFO_EXTENSION);
             if (!in_array($ext, $allowed) || !in_array($ext2, $allowed)) {
                 header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+                exit();
             }else{
                 $f = 'Image-Internship-';
                 $f2 = 'Image-Internship2-';
@@ -162,51 +190,59 @@
                 $temp1 = explode('.',$_FILES['i_img1']['name']);
                 $temp2 = explode('.',$_FILES['i_img2']['name']);
                 $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-                $uploadDir = "../uploaded/internship_img/";
                 $fileName1 = $f.$i_week.$br.$i_day.$br.$i_s_id.$br.$s_student_id.'.'.end($temp1) ;
                 $fileName2 = $f2.$i_week.$br.$i_day.$br.$i_s_id.$br.$s_student_id.'.'.end($temp2) ;
-                $uploadFilePath1 = $uploadDir.$fileName1; 
-                $uploadFilePath2 = $uploadDir.$fileName2; 
-                move_uploaded_file($_FILES['i_img1']['tmp_name'], $uploadFilePath1);    
-                move_uploaded_file($_FILES['i_img2']['tmp_name'], $uploadFilePath2);    
-    
-                $sql = $conn->prepare("UPDATE internship SET 
-                `i_img1` = ?, 
+                $uploadFilePath1 = $uploadDir.$fileName1;
+                $uploadFilePath2 = $uploadDir.$fileName2;
+
+                if($old_row && !empty($old_row['i_img1']) && is_file($uploadDir.$old_row['i_img1'])){
+                    unlink($uploadDir.$old_row['i_img1']);
+                }
+                if($old_row && !empty($old_row['i_img2']) && is_file($uploadDir.$old_row['i_img2'])){
+                    unlink($uploadDir.$old_row['i_img2']);
+                }
+
+                if (!move_uploaded_file($_FILES['i_img1']['tmp_name'], $uploadFilePath1) ||
+                    !move_uploaded_file($_FILES['i_img2']['tmp_name'], $uploadFilePath2)) {
+                    header("location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error_img");
+                    exit();
+                }
+
+                $sql = $conn->prepare("UPDATE internship SET
+                `i_img1` = ?,
                 `i_img2` = ?,
                 `i_img1_detail` = ?,
-                `i_img2_detail` = ?,   
-                `i_date` = ?, 
-                `i_detail` = ?, 
-                `i_week` = ?, 
-                `i_day` = ?, 
-                `i_start` = ?, 
+                `i_img2_detail` = ?,
+                `i_date` = ?,
+                `i_detail` = ?,
+                `i_week` = ?,
+                `i_day` = ?,
+                `i_start` = ?,
                 `i_end` = ?,
                 `i_count` = ?,
                 `i_s_id` = ?
                 WHERE `i_id` = ?");
-    
+
                 $sql->bind_param("ssssssisssiii",
                 $fileName1, $fileName2,
                 $i_img1_detail, $i_img2_detail,
-                $i_date, $i_detail, 
-                $i_week, $i_day, 
+                $i_date, $i_detail,
+                $i_week, $i_day,
                 $i_start, $i_end,
                 $hours, $i_s_id, $i_id);
                 if($sql->execute()){
                     header("Location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=success");
                 }else{
-                    die("SQL execution failed: " . $sql->error);
-                    echo($h);
+                    header("Location:../internship_submission_daily.php?week=$i_week&day=$i_day&status=error");
                 }
-    
+                exit();
+
             }
         }
 
-        
-
-        
     }else{
         header("Location:../index.php");
+        exit();
     }
 
 
