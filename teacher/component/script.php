@@ -204,6 +204,8 @@
             autoclose: true,             // Close picker after date selection
             language: 'th',              // Thai localization (supports B.E.)
             calendarWeeks: true,         // Show calendar week numbers
+            orientation: "bottom auto",  // open below the input so the sticky header does not cover it
+            zIndexOffset: 2000,
             beforeShowYear: function (year) {
                 return {
                     content: (year + 543).toString(), // Add 543 for B.E.
@@ -233,7 +235,9 @@ $('.buddhist-date-picker').datepicker({
     todayHighlight: true,
     autoclose: true,
     language: 'th',
-    calendarWeeks: true
+    calendarWeeks: true,
+    orientation: "bottom auto",  // open below the input so the sticky header does not cover it
+    zIndexOffset: 2000
 }).on('changeDate', function (e) {
     let date = e.date;
     if (date) {

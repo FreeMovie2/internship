@@ -9,7 +9,7 @@ $isLocal = in_array($serverName, ['localhost', '127.0.0.1', '::1'], true);
 if ($isLocal) {
     $username = 'root';
     $password = '';
-    $database_name = 'student_internship';
+    $database_name = 'idwebonl_intership';
 } else {
     $username = 'idwebonl_intership';
     $password = 'kY95RZZNKerh6aehu6dE';
