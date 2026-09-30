@@ -1,4 +1,8 @@
 <?php
+    // Years above 2400 are already B.E. (พ.ศ.); smaller ones are C.E. Avoids adding 543 twice.
+    function toBuddhistYear($year){
+        return $year > 2400 ? $year : $year + 543;
+    }
     function ThDate(){
         //เดือนภาษาไทย
         $ThMonth = array ( "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน","พฤษภาคม", "มิถุนายน", "กรกฏาคม", "สิงหาคม","กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" );
@@ -36,7 +40,7 @@
        $day = (int)$date_arr[0];
        $month = (int)$date_arr[1];
        $year = (int)$date_arr[2];
-       $bd_year = $year+543;
+       $bd_year = toBuddhistYear($year);
        $convert = "วันที่ ".$day." เดือน ".$ThMonth[$month-1]." พ.ศ.".$bd_year;
        return $convert;
     }
@@ -47,7 +51,7 @@
         $day = (int)$date_arr[0];
         $month = (int)$date_arr[1];
         $year = (int)$date_arr[2];
-        $full_date = "วันที่ ".$day." เดือน ".$ThMonth[$month-1]." พ.ศ.".$year+543;
+        $full_date = "วันที่ ".$day." เดือน ".$ThMonth[$month-1]." พ.ศ.".toBuddhistYear($year);
         return $full_date;
     }
 
@@ -57,7 +61,7 @@
         $day = (int)$date_arr[0];
         $month = (int)$date_arr[1];
         $year = (int)$date_arr[2];
-        $short_date = $day." ".$ThMonth[$month-1]." ".$year+543;
+        $short_date = $day." ".$ThMonth[$month-1]." ".toBuddhistYear($year);
         return $short_date;
     }
 
@@ -67,7 +71,7 @@
         $day = (int)$date_arr[0];
         $month = (int)$date_arr[1];
         $year = (int)$date_arr[2];
-        $split_date = $day."/".$ThMonth[$month-1]."/".$year+543;
+        $split_date = $day."/".$ThMonth[$month-1]."/".toBuddhistYear($year);
         return $split_date;
     }
 
@@ -77,7 +81,7 @@
         $day = (int)$date_arr[0];
         $month = (int)$date_arr[1];
         $year = (int)$date_arr[2];
-        $split_date2 = $day."/".$month."/".$year+543;
+        $split_date2 = $day."/".$month."/".toBuddhistYear($year);
         return $split_date2;
     }
 

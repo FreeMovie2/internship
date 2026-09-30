@@ -207,22 +207,50 @@
 
     // Apply datepicker to all fields with the class 'buddhist-date-picker'
 $('.buddhist-date-picker').datepicker({
-    format: 'dd/mm/yyyy',
+    // Input shows a B.E. year (dd/mm/พ.ศ.); the picker itself works in C.E. internally.
+    format: {
+        toDisplay: function (date) {
+            var d = ("0" + date.getUTCDate()).slice(-2);
+            var m = ("0" + (date.getUTCMonth() + 1)).slice(-2);
+            return d + "/" + m + "/" + (date.getUTCFullYear() + 543);
+        },
+        toValue: function (str) {
+            var p = String(str).split("/");
+            if (p.length !== 3) return new Date(NaN);
+            var y = parseInt(p[2], 10);
+            if (y > 2400) y -= 543; // already B.E. -> C.E.; smaller years are treated as C.E.
+            return new Date(Date.UTC(y, parseInt(p[1], 10) - 1, parseInt(p[0], 10)));
+        }
+    },
     todayHighlight: true,
     autoclose: true,
     language: 'th',
     calendarWeeks: true,
     orientation: "bottom auto",  // open below the input so the sticky header does not cover it
     zIndexOffset: 2000
-}).on('changeDate', function (e) {
-    let date = e.date;
-    if (date) {
-        let d = ("0" + date.getDate()).slice(-2);
-        let m = ("0" + (date.getMonth() + 1)).slice(-2);
-        let y = date.getFullYear() + 543; // ค.ศ. → พ.ศ.
-        $(this).val(d + "/" + m + "/" + y);
-    }
 });
+
+// Show the calendar's month/year/decade headings in B.E. (พ.ศ.). The picker works in C.E. internally and
+// has no option for this, so rewrite years in its text after every render (idempotent: B.E. years never match).
+(function () {
+    var YEAR_RE = /\b(19|20|21|22|23)\d{2}\b/g;
+    function toBE(text) {
+        return text.replace(YEAR_RE, function (y) { return String(parseInt(y, 10) + 543); });
+    }
+    function fixHeadings(root) {
+        $(root).find('.datepicker-switch, .datepicker-months .month, span.year, span.decade, span.century').each(function () {
+            var t = $(this).text(), n = toBE(t);
+            if (n !== t) $(this).text(n);
+        });
+    }
+    new MutationObserver(function (mutations) {
+        for (var i = 0; i < mutations.length; i++) {
+            var el = $(mutations[i].target).closest('.datepicker')[0];
+            if (el) { fixHeadings(el); return; }
+        }
+    }).observe(document.body, { childList: true, subtree: true, characterData: true });
+    $('.buddhist-date-picker').on('show', function () { fixHeadings(document.body); });
+})();
 
 
 });
