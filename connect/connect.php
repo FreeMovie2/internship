@@ -1,20 +1,28 @@
 <?php
 error_reporting(0);
 
-$host = 'localhost';
-$serverName = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
-$serverName = explode(':', $serverName)[0];
-$isLocal = in_array($serverName, ['localhost', '127.0.0.1', '::1'], true);
+// Credentials live in connect/config.php (git-ignored). See config.example.php.
+// Without it, only localhost falls back to the default local XAMPP/MAMP settings.
+$config = is_file(__DIR__ . '/config.php') ? require __DIR__ . '/config.php' : null;
 
-if ($isLocal) {
-    $username = 'root';
-    $password = '';
-    $database_name = 'student_internship';
-} else {
-    $username = 'idwebonl_intership';
-    $password = 'kY95RZZNKerh6aehu6dE';
-    $database_name = 'idwebonl_intership';
+if ($config === null) {
+    $serverName = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
+    $serverName = explode(':', $serverName)[0];
+    if (!in_array($serverName, ['localhost', '127.0.0.1', '::1'], true)) {
+        die('Missing connect/config.php');
+    }
+    $config = [
+        'host' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'student_internship',
+    ];
 }
+
+$host = $config['host'];
+$username = $config['username'];
+$password = $config['password'];
+$database_name = $config['database'];
 
 $conn = new mysqli($host, $username, $password, $database_name);
 
