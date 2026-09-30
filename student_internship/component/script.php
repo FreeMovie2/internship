@@ -419,3 +419,23 @@ $('.buddhist-date-picker').datepicker({
 
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+<script>
+    // 24-hour time fields (HH:MM): type it or pick from the dropdown, same on every browser/OS locale
+    $(function () {
+        flatpickr(".time-24", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            allowInput: true,
+            defaultHour: 8
+        });
+    });
+    $(document).on("input", ".time-24", function () {
+        let v = this.value.replace(/[^0-9]/g, "").slice(0, 4);
+        if (v.length > 2) v = v.slice(0, 2) + ":" + v.slice(2);
+        this.value = v;
+    });
+</script>

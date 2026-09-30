@@ -110,12 +110,12 @@
 
                                         <div class="mb-3">
                                             <label for="" class="form-label">เวลาเข้างาน</label>
-                                            <input type="time" class="form-control" name="i_start" required />
+                                            <input type="text" class="form-control time-24" name="i_start" placeholder="08:00" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" title="กรอกเวลาแบบ 24 ชั่วโมง เช่น 08:00" required />
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="" class="form-label">เวลาออกงาน</label>
-                                            <input type="time" class="form-control" name="i_end" required />
+                                            <input type="text" class="form-control time-24" name="i_end" placeholder="08:00" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" title="กรอกเวลาแบบ 24 ชั่วโมง เช่น 08:00" required />
                                         </div>
 
                                         <div class="mb-3">
@@ -179,14 +179,14 @@
 
                                         <div class="mb-3">
                                             <label for="" class="form-label">เวลาเข้างาน</label>
-                                            <input type="time" class="form-control" name="i_start"
-                                                value="<?php echo $fetch_checker['i_start']; ?>" />
+                                            <input type="text" class="form-control time-24" name="i_start" placeholder="08:00" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" title="กรอกเวลาแบบ 24 ชั่วโมง เช่น 08:00"
+                                                value="<?php echo substr($fetch_checker['i_start'], 0, 5); ?>" />
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="" class="form-label">เวลาออกงาน</label>
-                                            <input type="time" class="form-control" name="i_end"
-                                                value="<?php echo $fetch_checker['i_end']; ?>" />
+                                            <input type="text" class="form-control time-24" name="i_end" placeholder="08:00" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" title="กรอกเวลาแบบ 24 ชั่วโมง เช่น 08:00"
+                                                value="<?php echo substr($fetch_checker['i_end'], 0, 5); ?>" />
                                         </div>
 
                                         <div class="mb-3">
