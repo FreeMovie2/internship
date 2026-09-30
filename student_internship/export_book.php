@@ -152,7 +152,7 @@
   .internship-photo-page .photo-frame {
     /* border: 1px solid #000; */
     padding: 6px;
-    height: 70mm;
+    height: 60mm;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -259,12 +259,12 @@
         <div class="subpage">
             <p class="text-center"><b>แผนที่ตั้งสถานประกอบการ</b></p>
             <div class="image-block">
-                <p class="text-center"><img src="information_file/company/<?php echo $fetch_company["c_map"]; ?>" class="ing-fluid img-frame"/></p>
+                <p class="text-center"><img src="information_file/company/<?php echo $fetch_company["c_map"]; ?>" class="img-fluid img-frame"/></p>
             </div>
 
             <p class="text-center mt-3"><b>แผนผังโครงสร้างตำแหน่งงานของสถานประกอบการ</b></p>
             <div class="image-block">
-                <p class="text-center"><img src="information_file/company/<?php echo $fetch_company["c_org"]; ?>" class="ing-fluid img-frame"/></p>
+                <p class="text-center"><img src="information_file/company/<?php echo $fetch_company["c_org"]; ?>" class="img-fluid img-frame"/></p>
             </div>
         </div>
     </div>     
@@ -978,7 +978,7 @@
                         <p><b>3. วัน/เวลา/สถานที่</b> <?php echo $feth_activity['a_date']; ?> (<?php echo $feth_activity['a_place']; ?>)</p>
                         <p><b>4. บทบาทและการมีส่วนร่วม</b> <?php echo $feth_activity['a_detail']; ?></p>
                         <p class="text-center">
-                            <img src="uploaded/activity_img/<?php echo $feth_activity['a_img']; ?>" class="mt-3 mb-3 img-fluid w-75">
+                            <img src="uploaded/activity_img/<?php echo $feth_activity['a_img']; ?>" class="mt-3 mb-3 img-fluid" style="max-width:75%;max-height:85mm;width:auto;object-fit:contain;">
                         </p>
                     </div>
                     <div class="col-6">
